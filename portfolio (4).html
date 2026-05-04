@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Alxr — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Crimson+Pro:ital,wght@0,300;0,400;1,300&family=DM+Mono:wght@400&display=swap" rel="stylesheet" />
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --cream: #F5F0E8; --cream-dark: #EDE7D6; --parchment: #D9CEB8;
+  --terracotta: #C1714A; --terracotta-dark: #A05A35; --sienna: #7A4530;
+  --forest: #4A6348; --ink: #2C2418; --ink-muted: #5A4E3A;
+  --ink-faint: #8A7D68; --gold-light: #E8C567; --white: #FDFAF4;
+}
+html { scroll-behavior: smooth; }
+body { background: var(--cream); color: var(--ink); font-family: 'Crimson Pro', Georgia, serif; font-size: 18px; line-height: 1.75; overflow-x: hidden; }
+
+/* NAV */
+nav { position:fixed; top:0; left:0; right:0; z-index:200; background:rgba(245,240,232,0.93); backdrop-filter:blur(12px); border-bottom:1px solid var(--parchment); display:flex; align-items:center; justify-content:space-between; padding:0 3rem; height:64px; }
+.nav-logo { font-family:'Playfair Display',serif; font-size:1.4rem; color:var(--terracotta); text-decoration:none; }
+.nav-links { display:flex; gap:2rem; list-style:none; }
+.nav-links a { font-family:'DM Mono',monospace; font-size:0.75rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-muted); text-decoration:none; transition:color 0.2s; }
+.nav-links a:hover { color:var(--terracotta); }
+
+/* HERO */
+.hero { min-height:100vh; display:grid; grid-template-columns:1fr 1fr; padding-top:64px; position:relative; overflow:hidden; }
+.hero-texture { position:absolute; inset:0; pointer-events:none; background-image:radial-gradient(circle at 15% 85%,rgba(193,113,74,0.12) 0%,transparent 50%),radial-gradient(circle at 85% 20%,rgba(74,99,72,0.10) 0%,transparent 45%); }
+.hero-left { display:flex; flex-direction:column; justify-content:center; padding:5rem 4rem 5rem 5rem; position:relative; }
+.hero-eyebrow { font-family:'DM Mono',monospace; font-size:0.72rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--terracotta); margin-bottom:1.5rem; display:flex; align-items:center; gap:0.75rem; }
+.hero-eyebrow::before { content:''; width:2rem; height:1px; background:var(--terracotta); }
+h1.hero-name { font-family:'Playfair Display',serif; font-size:clamp(3rem,6vw,5rem); font-weight:400; line-height:1.08; margin-bottom:0.25rem; }
+h1.hero-name em { color:var(--terracotta); font-style:italic; }
+.hero-title { font-family:'Playfair Display',serif; font-size:1.1rem; font-style:italic; color:var(--ink-muted); margin-bottom:2rem; }
+.hero-bio { font-size:1.05rem; color:var(--ink-muted); max-width:42ch; margin-bottom:2.5rem; line-height:1.85; }
+.hero-cta { display:inline-flex; align-items:center; gap:0.6rem; padding:0.7rem 1.6rem; background:var(--terracotta); color:var(--white); text-decoration:none; font-family:'DM Mono',monospace; font-size:0.72rem; letter-spacing:0.1em; text-transform:uppercase; border-radius:2px; transition:background 0.2s,transform 0.15s; }
+.hero-cta:hover { background:var(--sienna); transform:translateY(-1px); }
+.hero-cta svg { width:14px; height:14px; }
+.hero-right { display:flex; align-items:center; justify-content:center; padding:5rem 5rem 5rem 2rem; position:relative; }
+.avatar-frame { width:380px; height:480px; position:relative; }
+.avatar-frame::before { content:''; position:absolute; top:18px; left:18px; right:-18px; bottom:-18px; border:2px solid var(--terracotta); border-radius:2px; opacity:0.35; }
+.avatar-placeholder { width:100%; height:100%; border-radius:2px; background:linear-gradient(145deg,var(--cream-dark) 0%,var(--parchment) 100%); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1rem; position:relative; z-index:1; }
+.avatar-placeholder svg { width:64px; height:64px; opacity:0.3; }
+.avatar-placeholder p { font-style:italic; color:var(--ink-faint); font-size:0.9rem; }
+.hero-badge { position:absolute; bottom:5rem; right:3rem; background:var(--forest); color:var(--white); padding:0.75rem 1.25rem; border-radius:2px; font-family:'DM Mono',monospace; font-size:0.7rem; letter-spacing:0.08em; text-transform:uppercase; z-index:2; }
+
+/* SECTION COMMON */
+section { padding:6rem 5rem; }
+.section-label { font-family:'DM Mono',monospace; font-size:0.7rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--terracotta); margin-bottom:0.75rem; display:flex; align-items:center; gap:0.75rem; }
+.section-label::after { content:''; flex:1; height:1px; background:linear-gradient(to right,var(--parchment),transparent); }
+h2.section-title { font-family:'Playfair Display',serif; font-size:clamp(2rem,3.5vw,2.8rem); font-weight:400; line-height:1.15; margin-bottom:0.5rem; }
+h2.section-title em { color:var(--terracotta); font-style:italic; }
+
+/* ABOUT */
+#about { background:var(--white); display:grid; grid-template-columns:1fr 2fr; gap:5rem; align-items:center; }
+.info-card { background:var(--cream); border:1px solid var(--parchment); border-radius:2px; padding:2rem; margin-bottom:1.25rem; }
+.info-card-label { font-family:'DM Mono',monospace; font-size:0.65rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:0.25rem; }
+.info-card-value { font-size:1.05rem; color:var(--ink); }
+.about-content h3 { font-family:'Playfair Display',serif; font-size:1.5rem; font-weight:400; margin-bottom:1rem; }
+.about-content p { color:var(--ink-muted); margin-bottom:1rem; max-width:65ch; }
+
+/* ABILITIES */
+#abilities { background:var(--cream); }
+.abilities-grid { display:flex; flex-direction:row; gap:2rem; margin-top:2.5rem; align-items:stretch; }
+.ability-card { background:var(--white); border:1px solid var(--parchment); border-radius:2px; overflow:hidden; cursor:pointer; transition:transform 0.25s,box-shadow 0.25s; position:relative; flex:1; min-width:0; }
+.ability-card:hover { transform:translateY(-4px); box-shadow:0 12px 40px rgba(44,36,24,0.12); }
+.ability-card::after { content:'Click to learn more'; position:absolute; bottom:0; left:0; right:0; background:var(--terracotta); color:var(--white); font-family:'DM Mono',monospace; font-size:0.62rem; letter-spacing:0.12em; text-transform:uppercase; text-align:center; padding:0.45rem; transform:translateY(100%); transition:transform 0.22s ease; }
+.ability-card:hover::after { transform:translateY(0); }
+/* Non-academic card spotlight */
+.ability-card.card-spotlight { flex:1.45; border-color:var(--terracotta); box-shadow:0 4px 24px rgba(193,113,74,0.15); }
+.ability-card.card-spotlight .ability-card-type { color:var(--sienna); font-weight:600; }
+.ability-card.card-spotlight::before { content:'★ Non-Academic'; position:absolute; top:0.65rem; right:0.75rem; background:var(--terracotta); color:var(--white); font-family:'DM Mono',monospace; font-size:0.58rem; letter-spacing:0.12em; text-transform:uppercase; padding:0.2rem 0.55rem; border-radius:1px; z-index:5; }
+.ability-img-placeholder { width:100%; height:220px; background:linear-gradient(135deg,var(--cream-dark) 0%,var(--parchment) 100%); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:0.5rem; }
+.ability-img-placeholder svg { width:40px; height:40px; opacity:0.35; }
+.ability-img-placeholder span { font-size:0.8rem; color:var(--ink-faint); font-style:italic; }
+.ability-card-img { width:100%; height:220px; object-fit:cover; display:block; }
+.ability-card-body { padding:1.5rem; }
+.ability-card-type { font-family:'DM Mono',monospace; font-size:0.65rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--terracotta); margin-bottom:0.4rem; }
+.ability-card-title { font-family:'Playfair Display',serif; font-size:1.25rem; font-weight:400; margin-bottom:0.5rem; }
+.ability-card-desc { color:var(--ink-muted); font-size:0.95rem; line-height:1.7; }
+.gpa-badge { display:inline-block; margin-top:0.75rem; padding:0.25rem 0.75rem; background:var(--gold-light); color:var(--sienna); font-family:'DM Mono',monospace; font-size:0.7rem; letter-spacing:0.1em; text-transform:uppercase; border-radius:1px; }
+
+/* ABILITY MODALS */
+.modal-overlay { display:none; position:fixed; inset:0; z-index:500; background:rgba(44,36,24,0.65); align-items:center; justify-content:center; padding:2rem; }
+.modal-overlay.open { display:flex; }
+.modal-box { background:var(--white); border-radius:2px; max-width:560px; width:100%; overflow:hidden; animation:modalIn 0.28s cubic-bezier(0.34,1.2,0.64,1) both; position:relative; }
+@keyframes modalIn { from{opacity:0;transform:scale(0.92) translateY(16px)} to{opacity:1;transform:scale(1) translateY(0)} }
+.modal-img-wrap { width:100%; height:240px; background:var(--cream-dark); overflow:hidden; }
+.modal-img-wrap img { width:100%; height:100%; object-fit:cover; display:block; }
+.modal-img-placeholder { width:100%; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:0.5rem; }
+.modal-img-placeholder svg { width:48px; height:48px; opacity:0.3; }
+.modal-img-placeholder span { font-size:0.82rem; color:var(--ink-faint); font-style:italic; }
+.modal-body { padding:2rem 2.25rem 2.5rem; }
+.modal-tag { font-family:'DM Mono',monospace; font-size:0.65rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--terracotta); margin-bottom:0.4rem; }
+.modal-title { font-family:'Playfair Display',serif; font-size:1.6rem; font-weight:400; margin-bottom:1rem; }
+.modal-text { color:var(--ink-muted); font-size:1rem; line-height:1.85; }
+.modal-close { position:absolute; top:1rem; right:1rem; background:var(--cream); border:1px solid var(--parchment); border-radius:2px; width:36px; height:36px; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:1.1rem; color:var(--ink-muted); transition:background 0.15s; z-index:10; }
+.modal-close:hover { background:var(--cream-dark); }
+
+/* PROJECTS */
+#projects { background:var(--white); }
+.projects-meta { display:flex; align-items:center; gap:2rem; margin:2rem 0 3rem; flex-wrap:wrap; }
+.user-count-card { background:var(--forest); color:var(--white); padding:1rem 1.75rem; border-radius:2px; display:flex; flex-direction:column; flex-shrink:0; }
+.user-count-label { font-family:'DM Mono',monospace; font-size:0.65rem; letter-spacing:0.15em; text-transform:uppercase; opacity:0.75; margin-bottom:0.15rem; }
+.user-count-number { font-family:'Playfair Display',serif; font-size:2.2rem; font-weight:600; line-height:1; color:var(--gold-light); }
+.user-count-sub { font-size:0.82rem; opacity:0.75; margin-top:0.15rem; }
+.projects-desc { color:var(--ink-muted); max-width:55ch; font-style:italic; }
+.project-single { background:var(--cream); border:1px solid var(--parchment); border-radius:2px; overflow:hidden; }
+.project-single-header { padding:2rem 2.25rem 1.75rem; border-bottom:1px solid var(--parchment); }
+.project-single-num { font-family:'DM Mono',monospace; font-size:0.62rem; letter-spacing:0.15em; color:var(--terracotta); margin-bottom:0.3rem; }
+.project-single-name { font-family:'Playfair Display',serif; font-size:1.6rem; font-weight:400; margin-bottom:0.5rem; }
+.project-single-desc { color:var(--ink-muted); font-size:1rem; max-width:70ch; }
+.project-single-link { display:inline-flex; align-items:center; gap:0.5rem; margin-top:1.25rem; padding:0.55rem 1.25rem; background:var(--terracotta); color:var(--white); text-decoration:none; font-family:'DM Mono',monospace; font-size:0.68rem; letter-spacing:0.1em; text-transform:uppercase; border-radius:2px; transition:background 0.2s; }
+.project-single-link:hover { background:var(--sienna); }
+.project-single-link svg { width:13px; height:13px; }
+.gallery-strip { display:grid; grid-template-columns:repeat(3,1fr); gap:3px; }
+.gallery-cell-wrap { display:flex; flex-direction:column; }
+.gallery-cell { position:relative; aspect-ratio:4/3; overflow:hidden; cursor:zoom-in; background:var(--cream-dark); }
+.gallery-cell img { width:100%; height:100%; object-fit:cover; display:block; transition:transform 0.35s ease; }
+.gallery-cell:hover img { transform:scale(1.06); }
+.gallery-cell-placeholder { width:100%; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:0.4rem; position:relative; }
+.g-num { font-family:'Playfair Display',serif; font-size:3.5rem; font-weight:600; opacity:0.07; position:absolute; bottom:-0.5rem; right:0.5rem; color:var(--ink); line-height:1; }
+.gallery-cell-placeholder svg { width:30px; height:30px; opacity:0.28; }
+.gallery-cell-placeholder span { font-size:0.72rem; color:var(--ink-faint); font-style:italic; z-index:1; }
+.g-bg-1{background:linear-gradient(135deg,#e8dfd0,#d9ceb8)} .g-bg-2{background:linear-gradient(135deg,#d9ceb8,#c9b89a)} .g-bg-3{background:linear-gradient(135deg,#e2d8c8,#d4c9b0)} .g-bg-4{background:linear-gradient(135deg,#dde0d6,#cbd0c4)} .g-bg-5{background:linear-gradient(135deg,#e8d8d0,#d9c4b8)} .g-bg-6{background:linear-gradient(135deg,#dfd8c8,#cec4a8)}
+
+/* GALLERY COMMENTS */
+.gallery-cell-wrap { display:flex; flex-direction:column; }
+.gallery-comment { background:var(--white); border:1px solid var(--parchment); border-top:none; padding:0.6rem 0.75rem; }
+.gallery-comment textarea { width:100%; background:transparent; border:none; outline:none; resize:none; font-family:'Crimson Pro',Georgia,serif; font-size:0.88rem; color:var(--ink-muted); line-height:1.5; min-height:3.2rem; placeholder-color:var(--ink-faint); }
+.gallery-comment textarea::placeholder { color:var(--ink-faint); font-style:italic; }
+.gallery-comment-label { font-family:'DM Mono',monospace; font-size:0.58rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:0.25rem; }
+.lightbox { display:none; position:fixed; inset:0; z-index:600; background:rgba(44,36,24,0.88); align-items:center; justify-content:center; }
+.lightbox.open { display:flex; }
+.lightbox-inner { position:relative; max-width:880px; width:90%; }
+.lightbox-inner img { width:100%; max-height:80vh; object-fit:contain; border-radius:2px; display:block; }
+.lightbox-close { position:absolute; top:-44px; right:0; background:transparent; border:1px solid rgba(255,255,255,0.3); border-radius:2px; width:36px; height:36px; display:flex; align-items:center; justify-content:center; cursor:pointer; color:#fff; font-size:1.1rem; }
+.lightbox-close:hover { background:rgba(255,255,255,0.1); }
+.lightbox-nav { position:absolute; top:50%; transform:translateY(-50%); background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.25); border-radius:2px; width:44px; height:44px; display:flex; align-items:center; justify-content:center; cursor:pointer; color:#fff; font-size:1.2rem; transition:background 0.15s; }
+.lightbox-nav:hover { background:rgba(255,255,255,0.22); }
+.lightbox-prev { left:-56px; } .lightbox-next { right:-56px; }
+.lightbox-caption { text-align:center; margin-top:1rem; font-family:'DM Mono',monospace; font-size:0.68rem; letter-spacing:0.12em; color:rgba(255,255,255,0.5); }
+
+/* CONTACT */
+#contact { background:var(--ink); color:var(--cream); text-align:center; padding:6rem 3rem; }
+#contact .section-label { justify-content:center; color:var(--gold-light); }
+#contact .section-label::after { display:none; }
+#contact h2.section-title { color:var(--cream); }
+#contact h2.section-title em { color:var(--gold-light); }
+#contact > p { color:rgba(245,240,232,0.6); margin:1rem auto 2.5rem; max-width:50ch; }
+.contact-links { display:flex; justify-content:center; gap:1.5rem; flex-wrap:wrap; }
+.contact-link { display:inline-flex; align-items:center; gap:0.5rem; padding:0.65rem 1.5rem; border:1px solid rgba(245,240,232,0.25); color:var(--cream); text-decoration:none; font-family:'DM Mono',monospace; font-size:0.72rem; letter-spacing:0.1em; text-transform:uppercase; border-radius:2px; transition:border-color 0.2s,background 0.2s; }
+.contact-link:hover { border-color:var(--gold-light); background:rgba(232,197,103,0.08); }
+.contact-link.primary { background:var(--terracotta); border-color:var(--terracotta); color:#fff; }
+.contact-link.primary:hover { background:var(--terracotta-dark); border-color:var(--terracotta-dark); }
+
+/* FOOTER */
+footer { background:var(--ink); border-top:1px solid rgba(245,240,232,0.08); padding:1.5rem 5rem; display:flex; align-items:center; justify-content:space-between; }
+footer p { font-family:'DM Mono',monospace; font-size:0.65rem; letter-spacing:0.08em; color:rgba(245,240,232,0.3); }
+
+/* ANIMATIONS */
+@keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+.hero-left > * { animation:fadeUp 0.7s ease both; }
+.hero-left > *:nth-child(1){animation-delay:0.1s} .hero-left > *:nth-child(2){animation-delay:0.2s} .hero-left > *:nth-child(3){animation-delay:0.3s} .hero-left > *:nth-child(4){animation-delay:0.4s} .hero-left > *:nth-child(5){animation-delay:0.5s}
+.hero-right { animation:fadeUp 0.9s 0.3s ease both; }
+
+/* RESPONSIVE */
+@media(max-width:900px){ nav{padding:0 1.5rem} .hero{grid-template-columns:1fr} .hero-right{display:none} .hero-left{padding:4rem 2rem} section{padding:4rem 1.75rem} #about{grid-template-columns:1fr;gap:2rem} .abilities-grid{flex-direction:column} .gallery-strip{grid-template-columns:1fr 1fr} footer{padding:1.5rem 1.75rem;flex-direction:column;gap:0.5rem;text-align:center} .lightbox-prev{left:-48px} .lightbox-next{right:-48px} }
+@media(max-width:600px){ .abilities-grid{flex-direction:column} .gallery-strip{grid-template-columns:1fr 1fr} .nav-links{display:none} .lightbox-prev,.lightbox-next{display:none} }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">PNM.</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#abilities">Abilities</a></li>
+    <li><a href="#projects">Projects</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-texture"></div>
+  <div class="hero-left">
+    <p class="hero-eyebrow">Portfolio</p>
+    <h1 class="hero-name">Hello, I'm<br><em> Phạm Ngọc Minh</em></h1>
+    <p class="hero-title">Aspiring Data Scientist · Student · Painter</p>
+    <p class="hero-bio">A curious mind with a love for books, web building and painting. I build things that matter and create art that breathes — bridging the digital and the handmade.</p>
+    <a href="#projects" class="hero-cta">
+      View my work
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+    </a>
+  </div>
+  <div class="hero-right">
+    <div class="avatar-frame">
+      <!--
+        Swap this placeholder for your photo:
+        <img src="https://raw.githubusercontent.com/YOUR_USER/YOUR_REPO/main/assets/avatar.jpg"
+             style="width:100%;height:100%;object-fit:cover;border-radius:2px;position:relative;z-index:1;" />
+      -->
+      <div class="avatar-placeholder">
+        <svg viewBox="0 0 48 48" fill="none" stroke="#8A7D68" stroke-width="1.5"><circle cx="24" cy="18" r="8"/><path d="M8 42c0-8.837 7.163-16 16-16s16 7.163 16 16"/></svg>
+        <p>Your photo here</p>
+      </div>
+    </div>
+    <div class="hero-badge">📚 Book Enthusiast</div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-sidebar">
+    <div class="section-label">01 — Who I Am</div>
+    <h2 class="section-title">A little<br><em>about me.</em></h2>
+    <div style="margin-top:2rem">
+      <div class="info-card"><p class="info-card-label">Full Name</p><p class="info-card-value">Phạm Ngọc Minh</p></div>
+      <div class="info-card"><p class="info-card-label">Location</p><p class="info-card-value">Hanoi, Vietnam</p></div>
+      <div class="info-card"><p class="info-card-label">School</p><p class="info-card-value">Newton Grammar School</p></div>
+      <div class="info-card"><p class="info-card-label">Phone Number</p><p class="info-card-value">+84 973 247 276</p></div>
+      <div class="info-card"><p class="info-card-label">Email</p><p class="info-card-value">nmp2039162@gmail.com</p></div>
+    </div>
+  </div>
+  <div class="about-content">
+    <h3>Nice to meet you.</h3>
+    <p>I'm a student, aspiring data scientist, and painter who finds beauty in both structured logic and free-form creativity. Whether I'm building a web app or mixing colours on a canvas, I bring the same care and attention to detail.</p>
+    <p>My journey started with a deep passion for books — stories that shaped how I see the world. That curiosity naturally led me to technology, where I could build my own worlds. Today I work on personal projects, learn voraciously, and paint whenever life slows down long enough to let me.</p>
+    <p>I believe in making things with attention to details. Every project here has a story to tell.My project started in Feb,2026 when I tried to create my own book-showcasing website.I then realize that my idea can be turned into something way bigger</p>
+  </div>
+</section>
+
+<!-- ABILITIES -->
+<section id="abilities">
+  <div class="section-label">02 — Abilities</div>
+  <h2 class="section-title">What I <em>bring.</em></h2>
+  <p style="color:var(--ink-faint);font-size:0.82rem;font-family:'DM Mono',monospace;letter-spacing:0.05em;margin-top:0.5rem;">Click any card to learn more.</p>
+
+  <div class="abilities-grid">
+
+    <!-- GPA -->
+    <div class="ability-card" onclick="openModal('modal-gpa')">
+      <div class="ability-card-body" style="padding-top:2rem;">
+        <p class="ability-card-type">Academic</p>
+        <h3 class="ability-card-title">GPA & Coursework</h3>
+        <p class="ability-card-desc">Consistently high performance at school.</p>
+        <span class="gpa-badge"></span>
+      </div>
+    </div>
+
+    <!-- Achievements -->
+    <div class="ability-card" onclick="openModal('modal-achievements')">
+      <div class="ability-card-body" style="padding-top:2rem;">
+        <p class="ability-card-type">Achievement</p>
+        <h3 class="ability-card-title">Awards & Honours</h3>
+        <p class="ability-card-desc"></p>
+      </div>
+    </div>
+
+    <!-- Painting -->
+    <div class="ability-card card-spotlight" onclick="openModal('modal-painting')">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:3px;width:100%;height:220px;overflow:hidden;">
+        <!--
+          Replace each placeholder with your painting images:
+          <img src="https://raw.githubusercontent.com/YOUR_USER/YOUR_REPO/main/assets/painting1.jpg" style="width:100%;height:100%;object-fit:cover;display:block;" alt="Painting 1" />
+        -->
+        <div style="background:linear-gradient(135deg,var(--cream-dark),var(--parchment));display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.4rem;">
+          <svg viewBox="0 0 40 40" fill="none" stroke="#8A7D68" stroke-width="1.5" width="30" height="30" style="opacity:0.35"><path d="M8 32c4-8 12-16 20-20"/><circle cx="30" cy="10" r="3"/><path d="M6 36c0-2 1-4 3-4s3 2 3 4"/></svg>
+          <span style="font-size:0.68rem;color:var(--ink-faint);font-style:italic;">painting 1</span>
+        </div>
+        <div style="background:linear-gradient(135deg,var(--parchment),#c9b89a);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.4rem;">
+          <svg viewBox="0 0 40 40" fill="none" stroke="#8A7D68" stroke-width="1.5" width="30" height="30" style="opacity:0.35"><path d="M8 32c4-8 12-16 20-20"/><circle cx="30" cy="10" r="3"/><path d="M6 36c0-2 1-4 3-4s3 2 3 4"/></svg>
+          <span style="font-size:0.68rem;color:var(--ink-faint);font-style:italic;">painting 2</span>
+        </div>
+      </div>
+      <div class="ability-card-body">
+        <p class="ability-card-type">Non-Academic</p>
+        <h3 class="ability-card-title">Painting & Fine Arts</h3>
+        <p class="ability-card-desc">Self-taught — Oil and acrylic explorations.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- MODAL: GPA -->
+<div class="modal-overlay" id="modal-gpa" onclick="closeModalIfOverlay(event,'modal-gpa')">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('modal-gpa')">✕</button>
+    <div class="modal-body" style="padding-top:2.5rem;">
+      <p class="modal-tag">Academic Performance</p>
+      <h3 class="modal-title">GPA & Coursework</h3>
+      <p class="modal-text">
+        I maintain a GPA of <strong style="color:var(--ink)">Grade 10: 9.4, Grade 11: 9.61, Grade 12 (1st semester): 9.5</strong> , focus especially on Mathematics,Chemistry and Physics. 
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Achievements -->
+<div class="modal-overlay" id="modal-achievements" onclick="closeModalIfOverlay(event,'modal-achievements')">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('modal-achievements')">✕</button>
+    <div class="modal-body" style="padding-top:2.5rem;">
+      <p class="modal-tag">Recognition & Achievements</p>
+      <h3 class="modal-title">Awards & Honours</h3>
+      <p class="modal-text">
+        A selection of things I'm proud of:<br><br>
+        — <strong style="color:var(--ink)">200+ users in my website app</strong>, Present<br>
+        — <strong style="color:var(--ink)">Second and Third</strong> in Excellent Students Contest in Chemistry, [2024/2025]<br>
+        — <strong style="color:var(--ink)">SAT</strong> — 1510 <br>
+        — <strong style="color:var(--ink)">1st in school's Innovation and Research competition</strong>[2025]<br>
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Painting -->
+<div class="modal-overlay" id="modal-painting" onclick="closeModalIfOverlay(event,'modal-painting')">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('modal-painting')">✕</button>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:3px;width:100%;height:240px;overflow:hidden;">
+      <!--
+        Replace each placeholder div with your actual images, e.g.:
+        <img src="https://raw.githubusercontent.com/YOUR_USER/YOUR_REPO/main/assets/painting1.jpg" style="width:100%;height:100%;object-fit:cover;display:block;" alt="Painting 1" />
+      -->
+      <div style="background:linear-gradient(135deg,var(--cream-dark),var(--parchment));display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.5rem;">
+        <svg viewBox="0 0 40 40" fill="none" stroke="#8A7D68" stroke-width="1.5" width="36" height="36" style="opacity:0.3"><path d="M8 32c4-8 12-16 20-20"/><circle cx="30" cy="10" r="3"/><path d="M6 36c0-2 1-4 3-4s3 2 3 4"/></svg>
+        <span style="font-size:0.78rem;color:var(--ink-faint);font-style:italic;">painting 1</span>
+      </div>
+      <div style="background:linear-gradient(135deg,var(--parchment),#c9b89a);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.5rem;">
+        <svg viewBox="0 0 40 40" fill="none" stroke="#8A7D68" stroke-width="1.5" width="36" height="36" style="opacity:0.3"><path d="M8 32c4-8 12-16 20-20"/><circle cx="30" cy="10" r="3"/><path d="M6 36c0-2 1-4 3-4s3 2 3 4"/></svg>
+        <span style="font-size:0.78rem;color:var(--ink-faint);font-style:italic;">painting 2</span>
+      </div>
+    </div>
+    <div class="modal-body">
+      <p class="modal-tag">Non-Academic · Fine Arts</p>
+      <h3 class="modal-title">Painting & Fine Arts</h3>
+      <p class="modal-text">
+        I've been painting since 2020, self-taught in oil and acrylic. During Covid-19, I had nothing to do other than gaming and doomscrolling. That's when I know I have to take up a leisure activity. I spent my allowance on art supplies, slowly experiment my way while watching real-time painting videos in Youtube. Art is how I slow down, observe the world, and process ideas that nothing can't quite express.<br><br>
+        My subjects tend to be landscapes. I paint mostly on weekends or whenever I feel boring.<br><br>
+        Whenever I run out of idea, I prefer to walk alone in darkness, observing the interplay of light and shadow.This might not give me an idea immediately, but gradually
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-label">03 — Projects</div>
+  <h2 class="section-title">Things I've <em>built.</em></h2>
+
+  <div class="projects-meta">
+    <div class="user-count-card">
+      <p class="user-count-label">Total Users</p>
+      <p class="user-count-number" id="user-count">235</p>
+      <p class="user-count-sub">on this project</p>
+    </div>
+    <p class="projects-desc">It all started on 25th, Feb 2026.When I notice that my friends (and I) plan to read a lot of books, but we barely competed.My friends always want me to read the same book as them so we can discuss.Thats when I realize what slows or accelerates our pace: connections.I asked a simple question: What if reading wasn't a personal habit, but something visible, sharable and acknowledgeable.I though of buulding a social platform, but for books.Although my website has not become a proper social platform yet, it's a step in the right direction.</p>
+  </div>
+
+  <div class="project-single">
+    <div class="project-single-header">
+      <p class="project-single-num">My only Project </p>
+      <h3 class="project-single-name">TheLibraleh</h3>
+      <p class="project-single-desc">A personal book library app with daily knowledge, personalized experience, cover art fetching and Firebase Cloud Storage — hosted on Vercel.</p>
+      <a href="https://libraleh.com" target="_blank" class="project-single-link">
+        Visit the project
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+      </a>
+    </div>
+
+    <!--
+    ══════════════════════════════════════════════════════
+    HOW TO ADD YOUR 6 IMAGES:
+
+    1. Create folder in your repo: assets/projects/
+    2. Upload: image1.jpg … image6.jpg
+    3. For each cell, uncomment the <img> tag and fill in
+       your GitHub username and repo name.
+       Raw URL format:
+       https://raw.githubusercontent.com/YOUR_USER/YOUR_REPO/main/assets/projects/image1.jpg
+    4. Also update the galleryImages array in the <script>
+       with those same URLs so the lightbox works.
+    5. Delete the placeholder div for that cell.
+    ══════════════════════════════════════════════════════
+    -->
+    <div class="gallery-strip">
+
+      <div class="gallery-cell-wrap">
+      <div class="gallery-cell g-bg-1" onclick="openLightbox(0)">
+        <!-- <img src="https://raw.githubusercontent.com/YOUR_USER/YOUR_REPO/main/assets/projects/image1.jpg" alt="Screenshot 1" /> -->
+        <div class="gallery-cell-placeholder">
+          <svg viewBox="0 0 36 36" fill="none" stroke="#8A7D68" stroke-width="1.5"><rect x="4" y="6" width="28" height="22" rx="2"/><path d="M4 14h28"/></svg>
+          <span>image1.jpg</span><span class="g-num">1</span>
+        </div>
+      </div>
+      <div class="gallery-comment">
+        <p class="gallery-comment-label">Note</p>
+        <textarea placeholder="Add a caption or note for this screenshot…">The former UI</textarea>
+      </div>
+      </div>
+
+      <div class="gallery-cell-wrap">
+      <div class="gallery-cell g-bg-2" onclick="openLightbox(1)">
+        <!-- <img src="https://raw.githubusercontent.com/YOUR_USER/YOUR_REPO/main/assets/projects/image2.jpg" alt="Screenshot 2" /> -->
+        <div class="gallery-cell-placeholder">
+          <svg viewBox="0 0 36 36" fill="none" stroke="#8A7D68" stroke-width="1.5"><circle cx="18" cy="18" r="12"/><path d="M18 10v8l5 3"/></svg>
+          <span>image2.jpg</span><span class="g-num">2</span>
+        </div>
+      </div>
+      <div class="gallery-comment">
+        <p class="gallery-comment-label">Note</p>
+        <textarea placeholder="Add a caption or note for this screenshot…">The updated UI</textarea>
+      </div>
+      </div>
+
+      <div class="gallery-cell-wrap">
+      <div class="gallery-cell g-bg-3" onclick="openLightbox(2)">
+        <!-- <img src="https://raw.githubusercontent.com/YOUR_USER/YOUR_REPO/main/assets/projects/image3.jpg" alt="Screenshot 3" /> -->
+        <div class="gallery-cell-placeholder">
+          <svg viewBox="0 0 36 36" fill="none" stroke="#8A7D68" stroke-width="1.5"><path d="M6 28L18 8l12 20H6z"/></svg>
+          <span>image3.jpg</span><span class="g-num">3</span>
+        </div>
+      </div>
+      <div class="gallery-comment">
+        <p class="gallery-comment-label">Note</p>
+        <textarea placeholder="Add a caption or note for this screenshot…">The daily knowledge modal</textarea>
+      </div>
+      </div>
+
+      <div class="gallery-cell-wrap">
+      <div class="gallery-cell g-bg-4" onclick="openLightbox(3)">
+        <!-- <img src="https://raw.githubusercontent.com/YOUR_USER/YOUR_REPO/main/assets/projects/image4.jpg" alt="Screenshot 4" /> -->
+        <div class="gallery-cell-placeholder">
+          <svg viewBox="0 0 36 36" fill="none" stroke="#8A7D68" stroke-width="1.5"><rect x="4" y="10" width="28" height="18" rx="2"/><path d="M12 10V8a6 6 0 0112 0v2"/></svg>
+          <span>image4.jpg</span><span class="g-num">4</span>
+        </div>
+      </div>
+      <div class="gallery-comment">
+        <p class="gallery-comment-label">Note</p>
+        <textarea placeholder="Add a caption or note for this screenshot…">The community section</textarea>
+      </div>
+      </div>
+
+      <div class="gallery-cell-wrap">
+      <div class="gallery-cell g-bg-5" onclick="openLightbox(4)">
+        <!-- <img src="https://raw.githubusercontent.com/YOUR_USER/YOUR_REPO/main/assets/projects/image5.jpg" alt="Screenshot 5" /> -->
+        <div class="gallery-cell-placeholder">
+          <svg viewBox="0 0 36 36" fill="none" stroke="#8A7D68" stroke-width="1.5"><path d="M6 18h24M18 6v24"/><circle cx="18" cy="18" r="12"/></svg>
+          <span>image5.jpg</span><span class="g-num">5</span>
+        </div>
+      </div>
+      <div class="gallery-comment">
+        <p class="gallery-comment-label">Note</p>
+        <textarea placeholder="Add a caption or note for this screenshot…">The stat dashboard</textarea>
+      </div>
+      </div>
+
+      <div class="gallery-cell-wrap">
+      <div class="gallery-cell g-bg-6" onclick="openLightbox(5)">
+        <!-- <img src="https://raw.githubusercontent.com/YOUR_USER/YOUR_REPO/main/assets/projects/image6.jpg" alt="Screenshot 6" /> -->
+        <div class="gallery-cell-placeholder">
+          <svg viewBox="0 0 36 36" fill="none" stroke="#8A7D68" stroke-width="1.5"><path d="M10 28V14l8-8 8 8v14"/><rect x="14" y="20" width="8" height="8"/></svg>
+          <span>image6.jpg</span><span class="g-num">6</span>
+        </div>
+      </div>
+      <div class="gallery-comment">
+        <p class="gallery-comment-label">Note</p>
+        <textarea placeholder="Add a caption or note for this screenshot…">The friend section</textarea>
+      </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightboxIfOverlay(event)">
+  <div class="lightbox-inner">
+    <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+    <button class="lightbox-nav lightbox-prev" onclick="shiftLightbox(-1)">‹</button>
+    <button class="lightbox-nav lightbox-next" onclick="shiftLightbox(1)">›</button>
+    <img id="lightbox-img" src="" alt="" />
+    <p class="lightbox-caption" id="lightbox-caption"></p>
+  </div>
+</div>
+
+
+
+<footer>
+  <p>© 2026 Libraleh </p>
+  <p>Hanoi, Vietnam</p>
+</footer>
+
+<script>
+// ── USER COUNT ──
+const userCount = 235; // ← set your real number here
+function animateCount(t, el) {
+  if (t === 0) { el.textContent = '—'; return; }
+  let c = 0; const step = Math.ceil(t / 60);
+  const iv = setInterval(() => { c = Math.min(c + step, t); el.textContent = c.toLocaleString(); if (c >= t) clearInterval(iv); }, 25);
+}
+new IntersectionObserver(entries => { entries.forEach(e => { if (e.isIntersecting) animateCount(userCount, document.getElementById('user-count')); }); }, { threshold: 0.5 }).observe(document.getElementById('user-count'));
+
+// ── ABILITY MODALS ──
+function openModal(id) { document.getElementById(id).classList.add('open'); document.body.style.overflow = 'hidden'; }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); document.body.style.overflow = ''; }
+function closeModalIfOverlay(e, id) { if (e.target === document.getElementById(id)) closeModal(id); }
+
+// ── LIGHTBOX ──
+// Fill these src values once you upload your images to GitHub.
+// Example: 'https://raw.githubusercontent.com/YOUR_USER/YOUR_REPO/main/assets/projects/image1.jpg'
+const galleryImages = [
+  { src: '', caption: 'TheAlxriaLibraleh — view 1' },
+  { src: '', caption: 'TheAlxriaLibraleh — view 2' },
+  { src: '', caption: 'TheAlxriaLibraleh — view 3' },
+  { src: '', caption: 'TheAlxriaLibraleh — view 4' },
+  { src: '', caption: 'TheAlxriaLibraleh — view 5' },
+  { src: '', caption: 'TheAlxriaLibraleh — view 6' },
+];
+let currentIdx = 0;
+function openLightbox(idx) {
+  if (!galleryImages[idx].src) return;
+  currentIdx = idx;
+  document.getElementById('lightbox-img').src = galleryImages[idx].src;
+  document.getElementById('lightbox-caption').textContent = galleryImages[idx].caption;
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox() { document.getElementById('lightbox').classList.remove('open'); document.body.style.overflow = ''; }
+function closeLightboxIfOverlay(e) { if (e.target === document.getElementById('lightbox')) closeLightbox(); }
+function shiftLightbox(dir) { const next = (currentIdx + dir + galleryImages.length) % galleryImages.length; if (galleryImages[next].src) openLightbox(next); }
+
+// ── ESC KEY ──
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { document.querySelectorAll('.modal-overlay.open').forEach(m => closeModal(m.id)); closeLightbox(); }
+});
+
+// ── SCROLL REVEAL ──
+const revealObs = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => { if (entry.isIntersecting) { entry.target.style.animation = `fadeUp 0.5s ${i * 0.07}s ease both`; revealObs.unobserve(entry.target); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.ability-card, .info-card, .project-single').forEach(el => { el.style.opacity = '0'; revealObs.observe(el); });
+</script>
+</body>
+</html>
