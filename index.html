@@ -319,18 +319,18 @@ footer p { font-family:'DM Mono',monospace; font-size:0.65rem; letter-spacing:0.
 <div class="modal-overlay" id="modal-painting" onclick="closeModalIfOverlay(event,'modal-painting')">
   <div class="modal-box">
     <button class="modal-close" onclick="closeModal('modal-painting')">✕</button>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:3px;width:100%;height:240px;overflow:hidden;">
-      <!--
-        Replace each placeholder div with your actual images, e.g.:
-        <img src="https://raw.githubusercontent.com/YOUR_USER/YOUR_REPO/main/assets/painting1.jpg" style="width:100%;height:100%;object-fit:cover;display:block;" alt="Painting 1" />
-      -->
-      <div style="background:linear-gradient(135deg,var(--cream-dark),var(--parchment));display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.5rem;">
-        <svg viewBox="0 0 40 40" fill="none" stroke="#8A7D68" stroke-width="1.5" width="36" height="36" style="opacity:0.3"><path d="M8 32c4-8 12-16 20-20"/><circle cx="30" cy="10" r="3"/><path d="M6 36c0-2 1-4 3-4s3 2 3 4"/></svg>
-        <span style="font-size:0.78rem;color:var(--ink-faint);font-style:italic;"><img src="https://raw.githubusercontent.com/Libra-leh/myportfolio-/main/assets/ve1.jpg" style="width:100%;object-fit:cover;display:block;" alt="Painting 1" /></span>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:3px;width:100%;align-items:start;">
+      <!-- Landscape (5x4) -->
+      <div style="overflow:hidden;">
+        <img src="https://raw.githubusercontent.com/Libra-leh/myportfolio-/main/assets/ve1.jpg"
+             style="width:100%;height:auto;display:block;"
+             alt="Painting 1" />
       </div>
-      <div style="background:linear-gradient(135deg,var(--parchment),#c9b89a);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.5rem;">
-        <svg viewBox="0 0 40 40" fill="none" stroke="#8A7D68" stroke-width="1.5" width="36" height="36" style="opacity:0.3"><path d="M8 32c4-8 12-16 20-20"/><circle cx="30" cy="10" r="3"/><path d="M6 36c0-2 1-4 3-4s3 2 3 4"/></svg>
-        <span style="font-size:0.78rem;color:var(--ink-faint);font-style:italic;"><img src="https://raw.githubusercontent.com/Libra-leh/myportfolio-/main/assets/ve2.jpg" style="height:100%;object-fit:cover;display:block;" alt="Painting 2" /></span>
+      <!-- Portrait (4x5) — taller, sets the row height -->
+      <div style="overflow:hidden;">
+        <img src="https://raw.githubusercontent.com/Libra-leh/myportfolio-/main/assets/ve2.jpg"
+             style="width:100%;height:auto;display:block;"
+             alt="Painting 2" />
       </div>
     </div>
     <div class="modal-body">
@@ -339,7 +339,7 @@ footer p { font-family:'DM Mono',monospace; font-size:0.65rem; letter-spacing:0.
       <p class="modal-text">
         I've been painting since 2020, self-taught in oil and acrylic. During Covid-19, I had nothing to do other than gaming and doomscrolling. That's when I know I have to take up a leisure activity. I spent my allowance on art supplies, slowly experiment my way while watching real-time painting videos in Youtube. Art is how I slow down, observe the world, and process ideas that nothing can't quite express.<br><br>
         My subjects tend to be landscapes. I paint mostly on weekends or whenever I feel boring.<br><br>
-        Whenever I run out of idea, I prefer to walk alone in darkness, observing the interplay of light and shadow.This might not give me an idea immediately, but gradually
+        Whenever I run out of idea, I prefer to walk alone in darkness, observing the interplay of light and shadow. This might not give me an idea immediately, but gradually
       </p>
     </div>
   </div>
